@@ -1,6 +1,6 @@
 {
   "name": "grunt-contrib-coffee-browserify",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Compile all your coffeescript assets with grunt",
   "scripts": {
     "build": "coffee --bare --compile --output tasks/ src/",
