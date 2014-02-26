@@ -1,6 +1,6 @@
 module.exports = (grunt) ->
   grunt.registerMultiTask 'browserify', 'Assembles JS files with browserify', ->
-    CoffeeBrowserify = require './coffee_browserify'
+    CoffeeBrowserify = require './lib/coffee_browserify'
 
     config = @data
     done = @async()

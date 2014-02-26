@@ -2,12 +2,11 @@
   "name": "grunt-contrib-coffee-browserify",
   "version": "0.0.2",
   "description": "Compile all your coffeescript assets with grunt",
-  "main": "src/index.js",
   "scripts": {
-    "build": "coffee --bare --compile --output lib/ src/",
+    "build": "coffee --bare --compile --output tasks/ src/",
     "pretest": "npm run-script build",
-    "test": "mocha --compilers coffee:coffee-script/register spec/*.spec.coffee",
-    "prepublish": "npm run-script build"
+    "prepublish": "npm run-script build",
+    "test": "grunt test"
   },
   "repository": {
     "type": "git",
@@ -28,7 +27,9 @@
     "through": "^2.3.4",
     "coffee-script": "^1.7.1",
     "uglify-js": "^2.4.12",
-    "fibrous": "^0.3.3",
     "browserify": "^3.31.2"
+  },
+  "peerDependencies": {
+    "fibrous": "*"
   }
 }
