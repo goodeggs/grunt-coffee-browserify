@@ -1,0 +1,27 @@
+{
+  "name": "grunt-coffee-browserify",
+  "version": "0.0.0",
+  "description": "Compile all your coffeescript assets with grunt",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "coffee --bare --compile --output lib/ src/",
+    "pretest": "npm run-script build",
+    "test": "mocha --compilers coffee:coffee-script/register spec/*.spec.coffee",
+    "prepublish": "npm run-script build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/goodeggs/grunt-coffee-browserify.git"
+  },
+  "keywords": [
+    "coffee-script",
+    "browserify",
+    "grunt"
+  ],
+  "author": "Max Edmands",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/goodeggs/grunt-coffee-browserify/issues"
+  },
+  "homepage": "https://github.com/goodeggs/grunt-coffee-browserify"
+}
