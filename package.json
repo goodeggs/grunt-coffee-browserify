@@ -1,5 +1,5 @@
 {
-  "name": "grunt-coffee-browserify",
+  "name": "grunt-contrib-coffee-browserify",
   "version": "0.0.1",
   "description": "Compile all your coffeescript assets with grunt",
   "main": "src/index.js",
