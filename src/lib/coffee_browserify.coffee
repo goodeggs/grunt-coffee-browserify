@@ -1,4 +1,5 @@
 fibrous = require 'fibrous'
+browserify = require 'browserify'
 coffee = require 'coffee-script'
 through = require 'through'
 uglify = require 'uglify-js'
