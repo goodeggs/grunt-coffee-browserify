@@ -1,4 +1,3 @@
-fibrous = require 'fibrous'
 browserify = require 'browserify'
 coffee = require 'coffee-script'
 through = require 'through'
@@ -7,12 +6,12 @@ fs = require 'fs'
 path = require 'path'
 {EventEmitter} = require 'events'
 
-defaultCompiler = fibrous (src, filepath, debug) -> src
+defaultCompiler = (src, filepath, debug, done) -> process.nextTick done.bind(null, null, src)
 compilers =
   '.js': defaultCompiler
   '.json': defaultCompiler
   '.node': defaultCompiler
-  '.coffee': fibrous (src, filepath, debug) ->
+  '.coffee': (src, filepath, debug, done) ->
     if debug
       {js, v3SourceMap} = coffee.compile src, bare: true, sourceMap: true, filename: filepath
       code = js
@@ -27,10 +26,10 @@ compilers =
     else
       code = coffee.compile src, bare: true, filename: filepath
 
-    code
+    process.nextTick done.bind(null, null, code)
 
 module.exports = class CoffeeBrowserify extends EventEmitter
-  run: fibrous (config) ->
+  run: (config, done) ->
     bundle = browserify extensions: ['.coffee']
 
     bundle.transform (filename) =>
@@ -44,10 +43,9 @@ module.exports = class CoffeeBrowserify extends EventEmitter
         ext = path.extname filename
         compiler = compilers[ext]
         throw new Error "No compiler for #{filename}" unless compiler?
-        code = compiler.sync src, filename, config.debug
-
-        @queue code
-        @queue null
+        code = compiler src, filename, config.debug, (err, code) =>
+          @queue code
+          @queue null
 
       return through write, end
 
@@ -63,14 +61,11 @@ module.exports = class CoffeeBrowserify extends EventEmitter
       else
         bundle.require item
 
-    wait = (callback) ->
-      code = ''
+    code = ''
 
-      s = bundle
-        .bundle(transformAll: true, debug: config.debug)
-        .pipe(through (data) -> code += data)
+    s = bundle
+      .bundle(transformAll: true, debug: config.debug)
+      .pipe(through (data) -> code += data)
 
-      s.once 'end', ->
-        fs.writeFile path.resolve(cwd, config.dest), code, 'utf8', callback
-
-    wait.sync()
+    s.once 'end', ->
+      fs.writeFile path.resolve(cwd, config.dest), code, 'utf8', done
