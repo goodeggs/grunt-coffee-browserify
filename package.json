@@ -27,6 +27,7 @@
     "through": "^2.3.4",
     "coffee-script": "^1.7.1",
     "uglify-js": "^2.4.12",
+    "module-deps": "git+https://github.com/alexgorbatchev/module-deps#6991561cfbd80202f4d4939e73f5b04e0b093362",
     "browserify": "^3.31.2"
   }
 }
